@@ -9,19 +9,10 @@ import java.util.List;
 
 
 public class BookingViewModel extends ViewModel {
-    // Represents the list of services
     private final MutableLiveData<List<SelectableService>> services = new MutableLiveData<>();
-
-    // Represents the selected services
     private final MutableLiveData<List<SelectableService>> selectedServices = new MutableLiveData<>(new ArrayList<>());
-
-    // Represents the user's name
     private final MutableLiveData<String> userName = new MutableLiveData<>("");
-
-    // Represents the selected date
     private final MutableLiveData<String> selectedDate = new MutableLiveData<>("");
-
-    // Represents the total price
     private final MutableLiveData<Integer> totalPrice = new MutableLiveData<>(0);
 
     public BookingViewModel() {
@@ -66,6 +57,9 @@ public class BookingViewModel extends ViewModel {
         selectedDate.setValue(date);
     }
 
+    public void setTotalPrice(int price) {
+        totalPrice.setValue(price);
+    }
     public void toggleServiceSelection(SelectableService service) {
         List<SelectableService> currentSelection = selectedServices.getValue();
         if (currentSelection == null) {
