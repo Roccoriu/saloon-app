@@ -1,9 +1,14 @@
 package com.saloonbooking.ui.home;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,6 +17,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.saloonbooking.R;
 import com.saloonbooking.databinding.DialogBookingOverlayBinding;
 
 public class BookingDialog extends DialogFragment {
@@ -59,7 +65,7 @@ public class BookingDialog extends DialogFragment {
             var totalPrice = viewModel.getTotalPrice().getValue();
             var services = viewModel.getSelectedServices().getValue();
 
-            if (services != null && totalPrice != null && date != null && user != null){
+            if (validate()){
                 homeViewModel.addBooking(
                         new Booking(
                                 date,
@@ -80,6 +86,43 @@ public class BookingDialog extends DialogFragment {
         return new AlertDialog.Builder(requireContext())
                 .setView(binding.getRoot())
                 .create();
+    }
+
+    private boolean validate(){
+        if(binding.etUserName.getText().toString().trim().isEmpty() || binding.etUserName.getText() == null){
+            showCustomToast(getContext(), "Name is missing");
+            binding.etUserName.setError("Name is missing");
+            return false;
+        }
+
+        if(viewModel.getSelectedDate().getValue() == null){
+            showCustomToast(getContext(), "Date is missing");
+            return false;
+        }
+
+        if(viewModel.getSelectedServices().getValue() == null || viewModel.getSelectedServices().getValue().isEmpty()){
+            showCustomToast(getContext(), "Select at least one service");
+            return false;
+        }
+
+        if(viewModel.getTotalPrice().getValue() == null || viewModel.getTotalPrice().getValue() == 0){
+            showCustomToast(getContext(), "Total can't be 0");
+            return false;
+        }
+
+        return true;
+    }
+
+    public void showCustomToast(Context context, String message) {
+        var layout = getLayoutInflater().inflate(R.layout.custom_toast, null);
+
+        TextView textView = layout.findViewById(R.id.tv_toast_message);
+        textView.setText(message);
+
+        Toast toast = new Toast(context);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(layout);
+        toast.show();
     }
 
     private void reset(){
