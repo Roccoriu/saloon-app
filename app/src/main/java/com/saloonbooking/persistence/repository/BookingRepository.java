@@ -27,7 +27,7 @@ public class BookingRepository {
                 null,
                 null,
                 null,
-                null
+                "id desc"
         );
 
         if (cursor.moveToFirst()) {

@@ -31,7 +31,7 @@ public class HomeViewModel extends ViewModel {
              current = new ArrayList<>();
              current.add(newBooking);
          } else{
-             current.add(newBooking);
+             current.add(0, newBooking);
          }
 
         bookingHistory.setValue(current);
