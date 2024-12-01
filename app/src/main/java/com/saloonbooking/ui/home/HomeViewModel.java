@@ -4,14 +4,20 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.saloonbooking.persistence.repository.BookingRepository;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeViewModel extends ViewModel {
+    private final BookingRepository repository;
     private final MutableLiveData<List<Booking>> bookingHistory;
 
-    public HomeViewModel() {
+    public HomeViewModel(BookingRepository repository) {
+        this.repository = repository;
+
         bookingHistory = new MutableLiveData<>();
+        bookingHistory.setValue(this.repository.getAllBookings());
     }
 
     public LiveData<List<Booking>> getBookingHistory() {
@@ -29,6 +35,7 @@ public class HomeViewModel extends ViewModel {
          }
 
         bookingHistory.setValue(current);
+        repository.upsertBooking(newBooking);
         return bookingHistory;
     }
 }

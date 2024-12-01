@@ -14,11 +14,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.saloonbooking.R;
 import com.saloonbooking.databinding.FragmentHomeBinding;
+import com.saloonbooking.persistence.repository.BookingRepository;
 
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
-    private BookingViewModel viewModel;
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
 
@@ -27,8 +27,8 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
 
-        viewModel = new ViewModelProvider(this).get(BookingViewModel.class);
-        homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
+        var factory= new HomeViewModelFactory(new BookingRepository(requireContext()));
+        homeViewModel = new ViewModelProvider(requireActivity(), factory).get(HomeViewModel.class);
 
         binding.fabBookAppointment.setOnClickListener(v -> showBookingOverlay());
 
