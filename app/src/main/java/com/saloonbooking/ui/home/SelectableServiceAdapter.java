@@ -32,7 +32,7 @@ public class SelectableServiceAdapter extends RecyclerView.Adapter<SelectableSer
     @Override
     public void onBindViewHolder(@NonNull ServiceViewHolder holder, int position) {
         SelectableService service = services.get(position);
-        holder.serviceNamePrice.setText(service.name + " - ₵" + service.price);
+        holder.serviceNamePrice.setText(service.getName() + " - ₵" + service.getPrice());
 
         // Get the current list of selected services
         List<SelectableService> selectedServices = viewModel.getSelectedServices().getValue();

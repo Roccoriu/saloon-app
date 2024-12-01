@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,23 +22,26 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.saloonbooking.R;
 
 public class BookingDialog extends DialogFragment {
-
     private BookingViewModel viewModel;
+    private HomeViewModel homeViewModel;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_booking_overlay, null, false);
+        var view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_booking_overlay, null, false);
+
         viewModel = new ViewModelProvider(requireActivity()).get(BookingViewModel.class);
+        homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
 
         EditText userNameInput = view.findViewById(R.id.et_user_name);
-        Button selectDateButton = view.findViewById(R.id.btn_select_date);
+        ImageButton selectDateButton = view.findViewById(R.id.btn_select_date);
         TextView totalPriceText = view.findViewById(R.id.tv_total_price);
         RecyclerView servicesRecyclerView = view.findViewById(R.id.rv_services);
 
         // Set up RecyclerView for services
         servicesRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        SelectableServiceAdapter adapter = new SelectableServiceAdapter(viewModel.getServices().getValue(), viewModel);
+
+        var adapter = new SelectableServiceAdapter(viewModel.getServices().getValue(), viewModel);
         servicesRecyclerView.setAdapter(adapter);
 
         // Observe user input
@@ -70,8 +74,16 @@ public class BookingDialog extends DialogFragment {
 
         // Set up action buttons
         view.findViewById(R.id.btn_cancel).setOnClickListener(v -> dismiss());
+
+        // TODO: remove the values from the inputs and the view model for the next click
         view.findViewById(R.id.btn_book).setOnClickListener(v -> {
-            // Handle booking logic
+            var date = viewModel.getSelectedDate().getValue();
+            var user = viewModel.getUserName().getValue();
+            var services = viewModel.getSelectedServices().getValue().stream().map(el -> el.getName()).toArray(String[]::new);
+            var totalPrice = viewModel.getTotalPrice().getValue();
+
+            homeViewModel.addBooking(new Booking(date, user,services, totalPrice));
+
             dismiss();
         });
 

@@ -4,16 +4,31 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class HomeViewModel extends ViewModel {
+import java.util.ArrayList;
+import java.util.List;
 
-    private final MutableLiveData<String> mText;
+public class HomeViewModel extends ViewModel {
+    private final MutableLiveData<List<Booking>> bookingHistory;
 
     public HomeViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        bookingHistory = new MutableLiveData<>();
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<List<Booking>> getBookingHistory() {
+        return bookingHistory;
+    }
+
+    public LiveData<List<Booking>> addBooking(Booking newBooking){
+        var current = bookingHistory.getValue();
+
+         if (current == null){
+             current = new ArrayList<>();
+             current.add(newBooking);
+         } else{
+             current.add(newBooking);
+         }
+
+        bookingHistory.setValue(current);
+        return bookingHistory;
     }
 }

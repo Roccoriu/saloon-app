@@ -1,24 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#6CB2EB</color>
-    <color name="primary_variant">#5692C9</color>
+    <color name="primary">#3A506B</color>
+    <color name="primary_variant">#2A3E54</color>
     <color name="on_primary">#FFFFFF</color>
 
-    <color name="secondary">#C3AED6</color>
-    <color name="secondary_variant">#A389C5</color>
+    <color name="secondary">#8A56AC</color>
+    <color name="secondary_variant">#6A3C8C</color>
     <color name="on_secondary">#FFFFFF</color>
 
-    <color name="background">#F8F9FA</color>
-    <color name="on_background">#212121</color>
+    <color name="background">#121212</color>
+    <color name="on_background">#E1E1E1</color>
 
-    <color name="surface">#FFFFFF</color>
-    <color name="on_surface">#424242</color>
+    <color name="surface">#1E1E1E</color>
+    <color name="on_surface">#F5F5F5</color>
 
-    <color name="error">#E57373</color>
+    <color name="error">#D97A7A</color>
     <color name="on_error">#FFFFFF</color>
-
-    <color name="colorSurface">#FFFFFF</color>
-    <color name="colorSurfaceVariant">#F5F5F5</color>
 
     <style name="buttonPrimary" parent="ThemeOverlay.AppCompat">
         <item name="colorAccent">@color/primary</item>
